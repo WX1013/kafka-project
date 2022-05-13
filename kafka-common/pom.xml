@@ -10,7 +10,8 @@
 
     <artifactId>kafka-common</artifactId>
     <version>1.0.0</version>
-    <name>公共模块</name>
+    <name>kafka-common</name>
+    <description>公共模块</description>
 
     <dependencies>
         <dependency>
