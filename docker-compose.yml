@@ -1,0 +1,31 @@
+version: '3'
+services:
+  zookeeper:
+    image: zookeeper
+    container_name: star_zk
+    ports:
+      - "2181:2181"
+    networks:
+      - network-kafka
+  kafka:
+    image: wurstmeister/kafka
+    container_name: star_kafka
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
+    networks:
+      - network-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 5
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      # 宿主机监听地址
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.2.100:9092
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+networks:
+  network-kafka:
+    driver: bridge
